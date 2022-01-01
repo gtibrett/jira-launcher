@@ -1,28 +1,22 @@
 import {faJira} from '@fortawesome/free-brands-svg-icons';
 import {faQuestion} from '@fortawesome/pro-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {AppBar, Grid, IconButton, Toolbar, Tooltip, Typography} from '@mui/material';
+import {AppBar, Grid, Toolbar, Typography} from '@mui/material';
 import {memo} from 'react';
-import {useNavigate} from 'react-router';
+import Options from '../pages/Options';
 
-const Header = ({title, icon = faQuestion, link = '/'}) => {
-	const navigate = useNavigate();
-	
+const Header = ({title = faQuestion}) => {
 	return <>
-		<AppBar>
+		<AppBar color="secondary">
 			<Toolbar>
 				<Grid container spacing={2} alignItems="center">
-					<Grid item><FontAwesomeIcon icon={faJira} size="2x"/></Grid>
+					<Grid item><FontAwesomeIcon icon={faJira} size="2x" fixedWidth/></Grid>
 					<Grid item xs>
 						<Typography variant="h5" component="h1">{title}</Typography>
 					</Grid>
 					
 					<Grid item>
-						<Tooltip title="Options" placement="left" arrow>
-							<IconButton onClick={() => navigate(link)}>
-								<FontAwesomeIcon icon={icon} color="#FFF"/>
-							</IconButton>
-						</Tooltip>
+						<Options/>
 					</Grid>
 				</Grid>
 			</Toolbar>
