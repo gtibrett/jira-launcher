@@ -22,20 +22,26 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: 'Read Version'
-        run: PACKAGE_VERSION=$(jq -r .version package.json); echo "package_version=$PACKAGE_VERSION" >> $GITHUB_ENV
+        run: |
+          PACKAGE_VERSION=$(jq -r .version package.json); echo "package_version=$PACKAGE_VERSION.${{ GITHUB_RUN_NUMBER }}" >> $GITHUB_ENV
       - name: 'Setup Font Awesome Registry'
-        run: cp .github/.npmrc ~/.npmrc; sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
+        run: |
+          cp .github/.npmrc ~/.npmrc; sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
       - name: 'Install Dependencies'
-        run: yarn install
+        run: |
+          yarn install
       - name: 'Build Extension'
-        run: yarn run build
+        run: |
+          yarn run build
       - name: 'Update Manifest Version'
-        run: sed 's/0.0.0-alpha/${{ env.package_version }}/g' build/manifest.json
+        run: |
+          jq .version="${{ env.package_version }}" public/manifest.json > build/manifest.json
       - name: 'Package Extension'
-        run: yarn run package
+        run: |
+          yarn run package
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
           name: jira-launcher
-          path: jira-launcher.zip
+          path: jira-launcher.${{ env.package_version }}.zip
           retention-days: 3
