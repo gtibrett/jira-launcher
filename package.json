@@ -25,7 +25,7 @@
 		"start": "react-app-rewired start",
 		"prebuild": "rm jira-launcher.zip; rm -fr ./build;",
 		"build": "react-scripts build",
-		"postbuild": "cd ./build;  zip -r -X ../jira-launcher.zip ."
+		"package": "cd ./build;  zip -r -X ../jira-launcher.zip ."
 	},
 	"eslintConfig": {
 		"extends": [

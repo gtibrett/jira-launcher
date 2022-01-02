@@ -1,0 +1,50 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 17.x ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Use Node.js ${{ matrix.node-version }}'
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - name: 'Read Version'
+        run: |
+          PACKAGE_VERSION=$(jq -r .version package.json); echo "package_version=$PACKAGE_VERSION.${{ github.run_number }}" >> $GITHUB_ENV
+      - name: 'Setup Font Awesome Registry'
+        run: |
+          cp .github/.npmrc ~/.npmrc; sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
+      - name: 'Install Dependencies'
+        run: |
+          yarn install
+      - name: 'Build Extension'
+        run: |
+          yarn run build
+      - name: 'Update Manifest Version'
+        run: |
+          jq .version='"${{ env.package_version }}"' public/manifest.json > build/manifest.json
+      - name: 'Package Extension'
+        run: |
+          yarn run package
+      - name: 'Rename Extension'
+        run: |
+          mv jira-launcher.zip jira-launcher-${{ env.package_version }}.zip
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: jira-launcher
+          path: jira-launcher-${{ env.package_version }}.zip
+          retention-days: 3
