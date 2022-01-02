@@ -39,9 +39,12 @@ jobs:
       - name: 'Package Extension'
         run: |
           yarn run package
+      - name: 'Rename Extension'
+        run: |
+          mv jira-launcher.zip jira-launcher-${{ env.package_version }}.zip
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
           name: jira-launcher
-          path: jira-launcher.${{ env.package_version }}.zip
+          path: jira-launcher-${{ env.package_version }}.zip
           retention-days: 3
