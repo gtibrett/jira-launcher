@@ -1,19 +1,25 @@
-import {Box} from '@mui/material';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Box, createTheme, ThemeProvider} from '@mui/material';
+import {blue, blueGrey} from '@mui/material/colors';
 import Extension from './pages/Extension';
-import Options from './pages/Options';
+
+const theme = createTheme({
+	palette: {
+		primary:   {
+			main: blue[800]
+		},
+		secondary: {
+			main: blueGrey[600]
+		}
+	}
+});
 
 function App() {
 	return (
-		<Box width={400} minHeight={200} p={3}>
-			<BrowserRouter>
-				<Routes>
-					<Route path="?options" element={<Options/>} exact/>
-					<Route path="/options" element={<Options/>} exact/>
-					<Route path="/*" element={<Extension/>}/>
-				</Routes>
-			</BrowserRouter>
-		</Box>
+		<ThemeProvider theme={theme}>
+			<Box width={400} minHeight={200} p={3}>
+				<Extension/>
+			</Box>
+		</ThemeProvider>
 	);
 }
 
