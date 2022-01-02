@@ -23,7 +23,7 @@ jobs:
           cache: 'yarn'
       - name: 'Read Version'
         run: |
-          PACKAGE_VERSION=$(jq -r .version package.json); echo "package_version=$PACKAGE_VERSION.${{ GITHUB_RUN_NUMBER }}" >> $GITHUB_ENV
+          PACKAGE_VERSION=$(jq -r .version package.json); echo "package_version=$PACKAGE_VERSION.${{ env.GITHUB_RUN_NUMBER }}" >> $GITHUB_ENV
       - name: 'Setup Font Awesome Registry'
         run: |
           cp .github/.npmrc ~/.npmrc; sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
