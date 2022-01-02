@@ -15,14 +15,14 @@ jobs:
         node-version: [17.x]
 
     steps:
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
     - name: Setup Font Awesome Registry
-    - run: cp .github/.npmrc ~/.npmrc
-    - run: sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}' ~/.npmrc
+      run: cp .github/.npmrc ~/.npmrc; sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}' ~/.npmrc
     - name: Install dependencies
-    - run: yarn install
+      run: yarn install
     - name: Build
     - run: yarn run build
