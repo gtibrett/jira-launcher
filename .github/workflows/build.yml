@@ -22,8 +22,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - name: 'Read Version'
-        id: package_version
-        run: jq .version package.json
+        run: PACKAGE_VERSION=$(jq -r .version package.json)
       - name: 'Setup Font Awesome Registry'
         run: cp .github/.npmrc ~/.npmrc; sed -i 's/FONT_AWESOME_KEY/${{ secrets.FONT_AWESOME_KEY }}/g' ~/.npmrc
       - name: 'Install Dependencies'
@@ -31,7 +30,7 @@ jobs:
       - name: 'Build Extension'
         run: yarn run build
       - name: 'Update Manifest Version'
-        run: sed 's/0.0.0-alpha/${{ package_version }}/g build/manifest.json'
+        run: sed 's/0.0.0-alpha/$PACKAGE_VERSION/g build/manifest.json'
       - name: 'Package Extension'
         run: yarn run package
       - name: 'Upload Artifact'
