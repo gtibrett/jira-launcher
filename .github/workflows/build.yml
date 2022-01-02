@@ -35,7 +35,7 @@ jobs:
           yarn run build
       - name: 'Update Manifest Version'
         run: |
-          jq .version="${{ env.package_version }}" public/manifest.json > build/manifest.json
+          jq .version='"${{ env.package_version }}"' public/manifest.json > build/manifest.json
       - name: 'Package Extension'
         run: |
           yarn run package
