@@ -1,6 +1,6 @@
-import {faSlidersH} from '@fortawesome/pro-solid-svg-icons';
+import {faInfoCircle, faSlidersH} from '@fortawesome/pro-light-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography} from '@mui/material';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography, useTheme} from '@mui/material';
 import {ChangeEvent, SyntheticEvent, useEffect, useState} from 'react';
 
 type OptionsState = {
@@ -9,6 +9,7 @@ type OptionsState = {
 }
 
 const Options = () => {
+    const theme = useTheme();
     const [open, setOpen] = useState<boolean>(false);
     const [state, setState] = useState<OptionsState>({
         instance: '',
@@ -48,11 +49,11 @@ const Options = () => {
     return <>
         <Tooltip title="Options" placement="left" arrow>
             <IconButton onClick={() => setOpen(true)}>
-                <FontAwesomeIcon icon={faSlidersH} color="#FFF" fixedWidth/>
+                <FontAwesomeIcon icon={faSlidersH} fixedWidth/>
             </IconButton>
         </Tooltip>
         <Dialog open={open} onClose={() => setOpen(false)} fullScreen>
-            <DialogTitle>Options</DialogTitle>
+            <DialogTitle sx={{fontSize: 18, paddingTop: 1, paddingBottom: 1}}>Options</DialogTitle>
             <form onSubmit={handleSave}>
                 <DialogContent dividers>
                     <Grid container spacing={2} justifyContent="flex-end">
@@ -62,7 +63,12 @@ const Options = () => {
                                 fullWidth
                                 label="Jira Instance"
                                 InputProps={{
-                                    startAdornment: <InputAdornment position="start">https://</InputAdornment>
+                                    startAdornment: <InputAdornment position="start">https://</InputAdornment>,
+                                    endAdornment: <InputAdornment position="end">
+                                        <Tooltip title="Enter the domain for your Jira Instance, like site.atlassian.net" arrow placement="left">
+                                            <span><FontAwesomeIcon icon={faInfoCircle} color={theme.palette.primary.main}/></span>
+                                        </Tooltip>
+                                    </InputAdornment>
                                 }}
                                 autoFocus
 
@@ -71,8 +77,6 @@ const Options = () => {
                                 onChange={handleChange('instance')}
                                 placeholder="[site].atlassian.net"
                             />
-                            <Typography variant="caption">Enter the domain for your Jira Instance. i.e.
-                                mysite.atlassian.net</Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
