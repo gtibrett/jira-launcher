@@ -74,7 +74,7 @@ const Favorites = () => {
     };
 
     return (
-        <Grid container spacing={1} alignItems="center">
+        <Grid container spacing={1} alignItems="center" sx={{paddingBottom: 2}}>
             <Grid item xs={12}>
                 <Typography variant="caption"><FontAwesomeIcon icon={faBookmark} fixedWidth/> Favorites</Typography>
                 {state.favorites.length === 0 && <Typography color="secondary" variant="caption"> - none saved</Typography>}
