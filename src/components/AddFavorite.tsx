@@ -49,6 +49,15 @@ const AddFavorite = ({jql, open, setOpen}: AddFavoriteProps) => {
         };
     }, []);
 
+    useEffect(() => {
+        if (open) {
+            setState(s => ({
+                ...s,
+                name: ''
+            }));
+        }
+    }, [open]);
+
     const handleChange = (prop: string) => (ev: ChangeEvent<HTMLInputElement>) => {
         setState({
             ...state,

@@ -1,10 +1,11 @@
 import {faBookmark} from '@fortawesome/pro-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Button, Divider, Grid, IconButton, IconButtonProps, InputAdornment, TextField, Tooltip} from '@mui/material';
+import {Button, Divider, Grid, IconButton, IconButtonProps, InputAdornment, TextField, Tooltip, useTheme} from '@mui/material';
 import {ChangeEvent, SyntheticEvent, useEffect, useState} from 'react';
 import AddFavorite, {saveFavorite} from '../components/AddFavorite';
 import Favorites from '../components/Favorites';
 import Header from '../components/Header';
+import {faBug, faSearch} from "@fortawesome/pro-light-svg-icons";
 
 type SaveToFavoritesButtonProps = {
     onClick: IconButtonProps['onClick'];
@@ -20,6 +21,7 @@ const SaveToFavoritesButton = ({onClick, color = 'primary'}: SaveToFavoritesButt
 );
 
 const Extension = () => {
+    const theme = useTheme();
     const [state, setState] = useState({
         key: '',
         jql: '',
@@ -112,6 +114,9 @@ const Extension = () => {
                             value={state.key}
                             onChange={handleChange('key')}
                             InputProps={{
+                                startAdornment: <InputAdornment position="start">
+                                    <FontAwesomeIcon icon={faBug} color={theme.palette.primary.main} role="presentation"/>
+                                </InputAdornment>,
                                 endAdornment: <InputAdornment position="end">
                                     <Button size="small" color="primary" onClick={handleKey}>Go</Button>
                                 </InputAdornment>
@@ -137,6 +142,9 @@ const Extension = () => {
                             value={state.jql}
                             onChange={handleChange('jql')}
                             InputProps={{
+                                startAdornment: <InputAdornment position="start">
+                                    <FontAwesomeIcon icon={faSearch} color={theme.palette.secondary.main} role="presentation"/>
+                                </InputAdornment>,
                                 endAdornment: <InputAdornment position="end">
                                     <Button size="small" color="primary" onClick={handleSearch}>Go</Button>
                                 </InputAdornment>
