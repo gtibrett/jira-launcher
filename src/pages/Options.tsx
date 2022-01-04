@@ -1,6 +1,6 @@
 import {faInfoCircle, faSlidersH} from '@fortawesome/pro-light-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, Typography, useTheme} from '@mui/material';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Tooltip, useTheme} from '@mui/material';
 import {ChangeEvent, SyntheticEvent, useEffect, useState} from 'react';
 
 type OptionsState = {
